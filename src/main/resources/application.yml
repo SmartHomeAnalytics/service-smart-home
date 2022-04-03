@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: service-smart-home
+  web:
+    resources:
+      add-mappings: false
+
+swagger.basepath: /service-smart-home
