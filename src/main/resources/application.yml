@@ -4,5 +4,16 @@ spring:
   web:
     resources:
       add-mappings: false
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
-swagger.basepath: /service-smart-home
+#swagger.basepath: /service-smart-home
+swagger:
+  basepath: /
+
+
+smart-home-service:
+  gcp:
+    project-id: my-project-91405-345021
+
