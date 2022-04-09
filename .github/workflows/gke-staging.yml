@@ -35,7 +35,7 @@ jobs:
         with:
           token_format: 'access_token'
           workload_identity_provider: 'projects/746628197808/locations/global/workloadIdentityPools/smart-home-gh-actions-pool/providers/my-provider'
-          service_account: 'gh-actions-service-account@746628197808.iam.gserviceaccount.com'
+          service_account: 'gh-actions-service-account@my-project-91405-345021.iam.gserviceaccount.com'
 
       - name: Docker configuration
         run: |-
