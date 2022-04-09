@@ -3,7 +3,7 @@ name: Build and Deploy to GKE on staging
 on:
   push:
     branches:
-      - dev
+      - test
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
@@ -39,7 +39,7 @@ jobs:
 
       - name: Check creds file
         run: |-
-          cat $(ls | grep /home/runner/work/service-smart-home/service-smart-home/gha-creds-)
+          cat $(ls)
 
       - name: Docker configuration
         run: |-
