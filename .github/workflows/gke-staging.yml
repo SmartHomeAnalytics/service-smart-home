@@ -38,8 +38,8 @@ jobs:
           service_account: 'gh-actions-service-account@my-project-91405-345021.iam.gserviceaccount.com'
 
       - name: Check creds file
-          run: |-
-            echo /home/runner/work/service-smart-home/service-smart-home/gha-creds-6f927d26c6fb5e88.json
+        run: |-
+          cat $(ls | grep /home/runner/work/service-smart-home/service-smart-home/gha-creds-)
 
       - name: Docker configuration
         run: |-
