@@ -37,13 +37,13 @@ jobs:
           workload_identity_provider: 'projects/746628197808/locations/global/workloadIdentityPools/smart-home-gh-actions-pool/providers/my-provider'
           service_account: 'gh-actions-service-account@my-project-91405-345021.iam.gserviceaccount.com'
 
-      - name: Check creds file
-        run: |-
-          cat $(ls)
-
       - name: Docker configuration
         run: |-
           echo ${{steps.auth.outputs.access_token}} | docker login -u oauth2accesstoken --password-stdin https://$GAR_LOCATION-docker.pkg.dev
+
+      - name: Test
+        run: |-
+          gcloud auth list
 
       # Get the GKE credentials so we can deploy to the cluster
       - name: Set up GKE credentials
