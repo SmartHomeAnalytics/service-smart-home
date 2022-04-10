@@ -13,7 +13,6 @@ env:
   DEPLOYMENT_NAME: gke-service-smart-home
   REPOSITORY: smart-home-analytics-repo
   IMAGE: service-smart-home
-  BUILD_VERSION: 22
 
 jobs:
   setup-build-publish-deploy:
@@ -54,11 +53,18 @@ jobs:
         run: |-
           ./gradlew build
 
+      - name: Generate versions
+        uses: HardNorth/github-version-generate@v1.1.1
+        with:
+          version-source: file
+          version-file: ./deployment/version.properties
+          version-file-extraction-pattern: '(?<=version=).+'
+
       # Build the Docker image
       - name: Docker build
         run: |-
           docker build \
-            --tag "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:${{ env.BUILD_VERSION }}" \
+            --tag "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:${{ env.NEXT_VERSION }}" \
             --build-arg GITHUB_SHA="$GITHUB_SHA" \
             --build-arg GITHUB_REF="$GITHUB_REF" \
             -f ./deployment/Dockerfile .
@@ -66,7 +72,7 @@ jobs:
       # Push the Docker image to Google Artifact Registry
       - name: Publish
         run: |-
-          docker push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:${{ env.BUILD_VERSION }}"
+          docker push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:${{ env.NEXT_VERSION }}"
 
       # Deploy the Docker image to the GKE cluster
       - name: Deploy
