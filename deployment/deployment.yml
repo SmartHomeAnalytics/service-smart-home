@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: gke-service-smart-home
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: gke-service-smart-home
