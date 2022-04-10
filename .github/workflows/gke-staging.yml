@@ -11,7 +11,7 @@ env:
   GKE_CLUSTER: smart-home-analytics-cluster
   GKE_ZONE: europe-central2-a
   DEPLOYMENT_NAME: gke-service-smart-home
-  REPOSITORY: SmartHomeAnalytics/service-smart-home
+  REPOSITORY: smart-home-analytics
   IMAGE: service-smart-home
 
 jobs:
