@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: service-smart-home
-          image: gcr.io/google-samples/hello-app:1.0
+          image: europe-central2-docker.pkg.dev/my-project-91405-345021/smart-home-analytics-repo/service-smart-home:22
           ports:
             - containerPort: 8080
           resources:
