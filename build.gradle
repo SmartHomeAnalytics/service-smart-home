@@ -34,31 +34,3 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
-
-// Publications related
-
-archivesBaseName = 'service-smart-home'
-
-java {
-	withSourcesJar()
-}
-
-jar {
-	enabled = false
-}
-
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			artifactId "${archivesBaseName}"
-			from components.java
-		}
-	}
-	repositories {
-		mavenLocal()
-	}
-}
-
-generatePomFileForMavenJavaPublication {
-	destination "${buildDir}/libs/${archivesBaseName}-${version}.pom"
-}

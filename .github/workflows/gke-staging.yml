@@ -52,7 +52,7 @@ jobs:
       # Build application
       - name: Java build
         run: |-
-          ./gradlew build generatePom -Pversion=${{ env.BUILD_VERSION }} -x test
+          ./gradlew build
 
       # Build the Docker image
       - name: Docker build
