@@ -13,6 +13,7 @@ env:
   DEPLOYMENT_NAME: gke-service-smart-home
   REPOSITORY: smart-home-analytics
   IMAGE: service-smart-home
+  BUILD_VERSION: 22
 
 jobs:
   setup-build-publish-deploy:
@@ -41,10 +42,6 @@ jobs:
         run: |-
           echo ${{steps.auth.outputs.access_token}} | docker login -u oauth2accesstoken --password-stdin https://$GAR_LOCATION-docker.pkg.dev
 
-      - name: Test
-        run: |-
-          gcloud auth list
-
       # Get the GKE credentials so we can deploy to the cluster
       - name: Set up GKE credentials
         uses: google-github-actions/get-gke-credentials@v0
@@ -52,11 +49,16 @@ jobs:
           cluster_name: ${{ env.GKE_CLUSTER }}
           location: ${{ env.GKE_ZONE }}
 
+      # Build application
+      - name: Java build
+        run: |-
+          ./gradlew build generatePom -Pversion=${{ env.BUILD_VERSION }} -x test
+
       # Build the Docker image
-      - name: Build
+      - name: Docker build
         run: |-
           docker build \
-            --tag "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA" \
+            --tag "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:${{ env.BUILD_VERSION }}" \
             --build-arg GITHUB_SHA="$GITHUB_SHA" \
             --build-arg GITHUB_REF="$GITHUB_REF" \
             -f ./deployment/Dockerfile .
