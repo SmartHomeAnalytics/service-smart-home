@@ -53,18 +53,11 @@ jobs:
         run: |-
           ./gradlew build
 
-      - name: Generate versions
-        uses: HardNorth/github-version-generate@v1.1.1
-        with:
-          version-source: file
-          version-file: ./deployment/version.properties
-          version-file-extraction-pattern: '(?<=version=).+'
-
       # Build the Docker image
       - name: Docker build
         run: |-
           docker build \
-            --tag "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:${{ env.NEXT_VERSION }}" \
+            --tag "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA" \
             --build-arg GITHUB_SHA="$GITHUB_SHA" \
             --build-arg GITHUB_REF="$GITHUB_REF" \
             -f ./deployment/Dockerfile .
@@ -72,12 +65,12 @@ jobs:
       # Push the Docker image to Google Artifact Registry
       - name: Publish
         run: |-
-          docker push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:${{ env.NEXT_VERSION }}"
+          docker push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA"
 
       # Deploy the Docker image to the GKE cluster
       # Replace version placeholder with next_build version and apply deployment
       - name: Deploy
         run: |-
-          cat ./deployment/deployment.yml | sed "s/{{IMAGE_VERSION}}/${{ env.NEXT_VERSION }}/g" | kubectl apply -f -
+          cat ./deployment/deployment.yml | sed "s/{{IMAGE_VERSION}}/$GITHUB_SHA/g" | kubectl apply -f -
           kubectl rollout status deployment/$DEPLOYMENT_NAME
           kubectl get services -o wide
