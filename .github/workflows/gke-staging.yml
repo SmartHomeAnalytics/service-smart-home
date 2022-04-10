@@ -11,7 +11,7 @@ env:
   GKE_CLUSTER: smart-home-analytics-cluster
   GKE_ZONE: europe-central2-a
   DEPLOYMENT_NAME: gke-service-smart-home
-  REPOSITORY: smart-home-analytics-repo
+  REPOSITORY: SmartHomeAnalytics/service-smart-home
   IMAGE: service-smart-home
 
 jobs:
@@ -36,11 +36,6 @@ jobs:
           token_format: 'access_token'
           workload_identity_provider: 'projects/746628197808/locations/global/workloadIdentityPools/gha-pool/providers/gha-provider'
           service_account: 'gha-service-account@my-project-91405-345021.iam.gserviceaccount.com'
-
-      - name: 'Access secret'
-        run: |-
-          curl https://secretmanager.googleapis.com/v1/projects/my-project/secrets/my-secret/versions/1:access \
-            --header "Authorization: Bearer ${{ steps.auth.outputs.access_token }}"
 
       - name: Docker configuration
         run: |-
