@@ -75,9 +75,9 @@ jobs:
           docker push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:${{ env.NEXT_VERSION }}"
 
       # Deploy the Docker image to the GKE cluster
+      # Replace version placeholder with next_build version and apply deployment
       - name: Deploy
         run: |-
-      # Replace version placeholder with next_build version and apply deployment
           cat ./deployment/deployment.yml | sed "s/{{IMAGE_VERSION}}/${{ env.NEXT_VERSION }}/g" | kubectl apply -f -
           kubectl rollout status deployment/$DEPLOYMENT_NAME
           kubectl get services -o wide
