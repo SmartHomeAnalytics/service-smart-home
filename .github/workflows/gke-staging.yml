@@ -37,6 +37,11 @@ jobs:
           workload_identity_provider: 'projects/746628197808/locations/global/workloadIdentityPools/gha-pool/providers/gha-provider'
           service_account: 'gha-service-account@my-project-91405-345021.iam.gserviceaccount.com'
 
+      - name: 'Access secret'
+        run: |-
+          curl https://secretmanager.googleapis.com/v1/projects/my-project/secrets/my-secret/versions/1:access \
+            --header "Authorization: Bearer ${{ steps.auth.outputs.access_token }}"
+
       - name: Docker configuration
         run: |-
           echo ${{steps.auth.outputs.access_token}} | docker login -u oauth2accesstoken --password-stdin https://$GAR_LOCATION-docker.pkg.dev
