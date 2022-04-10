@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: gke-service-smart-home
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: gke-service-smart-home
@@ -17,9 +17,11 @@ spec:
       labels:
         app: gke-service-smart-home
     spec:
+      terminationGracePeriodSeconds: 30
       containers:
         - name: service-smart-home
-          image: gcr.io/google-samples/hello-app:1.0
+          image: europe-central2-docker.pkg.dev/my-project-91405-345021/smart-home-analytics-repo/service-smart-home:{{IMAGE_VERSION}}
+          imagePullPolicy: "Always"
           ports:
             - containerPort: 8080
           resources:
