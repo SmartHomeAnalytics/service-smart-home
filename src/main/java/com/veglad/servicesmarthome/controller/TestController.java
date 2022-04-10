@@ -10,6 +10,6 @@ public class TestController {
 
     @GetMapping
     public String getNotificationsForItem() {
-        return "test2";
+        return "test3";
     }
 }

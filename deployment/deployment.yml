@@ -20,7 +20,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: service-smart-home
-          image: europe-central2-docker.pkg.dev/my-project-91405-345021/smart-home-analytics-repo/service-smart-home:latest
+          image: europe-central2-docker.pkg.dev/my-project-91405-345021/smart-home-analytics-repo/service-smart-home:{{IMAGE_VERSION}}
           imagePullPolicy: "Always"
           ports:
             - containerPort: 8080
