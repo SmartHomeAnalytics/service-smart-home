@@ -4,6 +4,8 @@ plugins {
 	id 'java'
 }
 
+apply plugin: 'maven-publish'
+
 group = 'com.veglad'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '8'
@@ -31,4 +33,32 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+// Publications related
+
+archivesBaseName = 'service-smart-home'
+
+java {
+	withSourcesJar()
+}
+
+jar {
+	enabled = false
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			artifactId "${archivesBaseName}"
+			from components.java
+		}
+	}
+	repositories {
+		mavenLocal()
+	}
+}
+
+generatePomFileForMavenJavaPublication {
+	destination "${buildDir}/libs/${archivesBaseName}-${version}.pom"
 }
