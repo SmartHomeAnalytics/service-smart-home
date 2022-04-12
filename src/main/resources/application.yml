@@ -4,5 +4,30 @@ spring:
   web:
     resources:
       add-mappings: false
+  lifecycle:
+    timeout-per-shutdown-phase: 1m #graceful timeout to complete currently running requests
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${sm://SMART_HOME_DB_NAME}
+    username: ${sm://SMART_HOME_DB_PASSWORD}
+    password: ${sm://SMART_HOME_DB_USER}
+  jpa:
+    properties.hibernate:
+      dialect: org.hibernate.dialect.PostgreSQL95Dialect
+      jdbc.lob.non_contextual_creation: true
+  flyway:
+    table: flyway_schema_history_smart_home
+    baseline-on-migrate: true
+    ignore-missing-migrations: true
+    ignore-ignored-migrations: true # allows to refactor previously applied migrations
+    ignore-future-migrations: true # allows rollback with already applied migrations
+    locations: classpath:/sql
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
 
 swagger.basepath: /service-smart-home
+
+server:
+  port: 8080
+  shutdown: graceful

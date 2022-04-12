@@ -1,7 +1,7 @@
 plugins {
-	id 'org.springframework.boot' version '2.6.6'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.6.6'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
 }
 
 group = 'com.veglad'
@@ -9,30 +9,42 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '8'
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    implementation.exclude group: 'org.apache.tomcat.embed'
+    implementation.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-undertow'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+    implementation group: 'com.google.cloud', name: 'spring-cloud-gcp-starter-secretmanager', version: '3.1.0'
 
-	implementation 'com.fasterxml.jackson.core:jackson-core:2.13.0'
-	implementation 'org.apache.commons:commons-collections4:4.1'
+    implementation group: 'org.flywaydb', name: 'flyway-core', version: "6.5.7"
+    implementation group: 'org.postgresql', name: 'postgresql', version: "42.2.16"
 
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.13.0'
+    implementation 'org.apache.commons:commons-collections4:4.1'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 jar {
-	enabled = false
+    enabled = false
 }
