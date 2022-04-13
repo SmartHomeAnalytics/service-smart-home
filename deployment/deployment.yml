@@ -35,7 +35,7 @@ spec:
               readOnly: true
           env:
             - name: GOOGLE_APPLICATION_CREDENTIALS
-              value: /etc/gcp/application-credentials.json
+              value: /etc/gcp/smartHomeServiceAccountKey.json
       volumes:
         - name: google-application-credentials-volume
           secret:
