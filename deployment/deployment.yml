@@ -19,6 +19,18 @@ spec:
     spec:
       terminationGracePeriodSeconds: 30
       containers:
+        - image: gcr.io/cloudsql-docker/gce-proxy:1.18.0
+          name: cloud-sql-proxy
+          command:
+            - "/cloud_sql_proxy"
+            - "-credential_file=/etc/gcp/smartHomeServiceAccountKey.json"
+            - "-instances=my-project-91405-345021:europe-central2:smart-home-db=tcp:5432"
+          securityContext:
+            runAsNonRoot: true
+          volumeMounts:
+            - name: google-application-credentials-volume
+              mountPath: /etc/gcp
+              readOnly: true
         - name: service-smart-home
           image: europe-central2-docker.pkg.dev/my-project-91405-345021/smart-home-analytics-repo/service-smart-home:{{IMAGE_VERSION}}
           imagePullPolicy: "Always"
