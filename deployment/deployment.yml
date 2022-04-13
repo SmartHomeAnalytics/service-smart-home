@@ -29,6 +29,20 @@ spec:
               cpu: 100m
             limits:
               cpu: 100m
+          volumeMounts:
+            - name: google-application-credentials-volume
+              mountPath: /etc/gcp
+              readOnly: true
+          env:
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /etc/gcp/application-credentials.json
+      volumes:
+        - name: google-application-credentials-volume
+          secret:
+            secretName: google-application-credentials
+            items:
+              - key: smartHomeServiceAccountKey.json
+                path: smartHomeServiceAccountKey.json
 ---
 apiVersion: v1
 kind: Service
