@@ -11,7 +11,7 @@ sourceCompatibility = '8'
 configurations {
     implementation.exclude group: 'org.apache.tomcat.embed'
     implementation.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
-    
+
     compileOnly {
         extendsFrom annotationProcessor
     }
@@ -32,7 +32,7 @@ dependencies {
 
     implementation 'com.fasterxml.jackson.core:jackson-core:2.13.0'
     implementation 'org.apache.commons:commons-collections4:4.1'
-    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.7'
     implementation 'javax.validation:validation-api:2.0.1.Final'
 
     implementation 'com.google.apis:google-api-services-cloudiot:v1-rev20211108-1.32.1'
