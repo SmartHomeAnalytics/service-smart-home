@@ -30,11 +30,17 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
     implementation group: 'com.google.cloud', name: 'spring-cloud-gcp-starter-secretmanager', version: '3.1.0'
 
-    implementation group: 'org.flywaydb', name: 'flyway-core', version: "6.5.7"
-    implementation group: 'org.postgresql', name: 'postgresql', version: "42.2.16"
-
     implementation 'com.fasterxml.jackson.core:jackson-core:2.13.0'
     implementation 'org.apache.commons:commons-collections4:4.1'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.7'
+    implementation 'javax.validation:validation-api:2.0.1.Final'
+
+    implementation 'com.google.apis:google-api-services-cloudiot:v1-rev20211108-1.32.1'
+    implementation platform('com.google.cloud:libraries-bom:25.1.0')
+    implementation 'com.google.cloud:google-cloud-bigquery'
+
+    implementation group: 'org.flywaydb', name: 'flyway-core', version: "6.5.7"
+    implementation group: 'org.postgresql', name: 'postgresql', version: "42.2.16"
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

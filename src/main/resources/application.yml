@@ -4,6 +4,9 @@ spring:
   web:
     resources:
       add-mappings: false
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   lifecycle:
     timeout-per-shutdown-phase: 1m #graceful timeout to complete currently running requests
   datasource:
@@ -26,7 +29,13 @@ spring:
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
 
-swagger.basepath: /service-smart-home
+springdoc:
+  packagesToScan: com.veglad.servicesmarthome.controller
+  pathsToMatch: /**
+
+smart-home-service:
+  gcp:
+    project-id: my-project-91405-345021
 
 server:
   port: 8080
