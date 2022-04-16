@@ -7,6 +7,27 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  lifecycle:
+    timeout-per-shutdown-phase: 1m #graceful timeout to complete currently running requests
+    datasource:
+      driver-class-name: org.postgresql.Driver
+      url: ${sm://SMART_HOME_DB_URL}
+      username: ${sm://SMART_HOME_DB_USER}
+      password: ${sm://SMART_HOME_DB_PASSWORD}
+    jpa:
+      properties.hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+        jdbc.lob.non_contextual_creation: true
+    flyway:
+      table: flyway_schema_history_smart_home
+      baseline-on-migrate: true
+      ignore-missing-migrations: true
+      ignore-ignored-migrations: true # allows to refactor previously applied migrations
+      ignore-future-migrations: true # allows rollback with already applied migrations
+      locations: classpath:/sql
+      url: ${spring.datasource.url}
+      user: ${spring.datasource.username}
+      password: ${spring.datasource.password}
 
 #swagger.basepath: /service-smart-home
 swagger:
@@ -17,3 +38,6 @@ smart-home-service:
   gcp:
     project-id: my-project-91405-345021
 
+server:
+  port: 8080
+  shutdown: graceful

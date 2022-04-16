@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gke-service-smart-home
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gke-service-smart-home
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: gke-service-smart-home
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - image: gcr.io/cloudsql-docker/gce-proxy:1.18.0
+          name: cloud-sql-proxy
+          command:
+            - "/cloud_sql_proxy"
+            - "-credential_file=/etc/gcp/smartHomeServiceAccountKey.json"
+            - "-instances=my-project-91405-345021:europe-central2:smart-home-db=tcp:5432"
+          securityContext:
+            runAsNonRoot: true
+          volumeMounts:
+            - name: google-application-credentials-volume
+              mountPath: /etc/gcp
+              readOnly: true
+        - name: service-smart-home
+          image: europe-central2-docker.pkg.dev/my-project-91405-345021/smart-home-analytics-repo/service-smart-home:{{IMAGE_VERSION}}
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: 100m
+            limits:
+              cpu: 100m
+          volumeMounts:
+            - name: google-application-credentials-volume
+              mountPath: /etc/gcp
+              readOnly: true
+          env:
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /etc/gcp/smartHomeServiceAccountKey.json
+      volumes:
+        - name: google-application-credentials-volume
+          secret:
+            secretName: google-application-credentials
+            items:
+              - key: smartHomeServiceAccountKey.json
+                path: smartHomeServiceAccountKey.json
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gke-service-smart-home-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    app: gke-service-smart-home
