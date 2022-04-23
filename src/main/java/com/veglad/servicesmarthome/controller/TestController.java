@@ -2,6 +2,7 @@ package com.veglad.servicesmarthome.controller;
 
 import com.veglad.servicesmarthome.DbTest;
 import com.veglad.servicesmarthome.TestDao;
+import com.veglad.servicesmarthome.dto.api.ApiResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,7 @@ public class TestController {
     }
 
     @GetMapping
-    public List<DbTest> getTests() {
-        return testDao.findAll();
+    public ApiResponse<List<DbTest>> getTests() {
+        return ApiResponse.of(testDao.findAll());
     }
 }
