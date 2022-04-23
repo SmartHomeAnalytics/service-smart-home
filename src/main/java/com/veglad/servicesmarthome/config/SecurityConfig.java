@@ -29,7 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers(
                 "/health",
-                "/auth/**"
+                "/auth/**",
+                "/v1/person/register"
         );
 
         // Exclude Swagger from Spring Security
