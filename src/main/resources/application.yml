@@ -28,6 +28,11 @@ spring:
     url: ${spring.datasource.url}
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-ea8swk-9.us.auth0.com/
 
 springdoc:
   packagesToScan: com.veglad.servicesmarthome.controller
@@ -36,6 +41,9 @@ springdoc:
 smart-home-service:
   gcp:
     project-id: my-project-91405-345021
+
+auth0:
+  audience: https://dev-ea8swk-9.us.auth0.com/api/v2/
 
 server:
   port: 8080
